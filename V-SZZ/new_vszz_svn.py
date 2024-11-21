@@ -28,7 +28,7 @@ import datetime
 
 from dateutil import parser
 
-dir_path = 'C:/Users/sunqing/Desktop/Tomcat-Similarity-analysis/'
+dir_path = ''
 
 
 # get target repo's cve list
@@ -147,7 +147,7 @@ def get_parcommit(fix_commit, repo_dir):
     command = 'cd %s && svn checkout -f %s' % (repo_dir, fix_commit)
     print(command)
     os.system(command)
-    tmp2 = 'C:/Users/sunqing/Desktop/vszz/vszz_output/tmp_data2'
+    tmp2 = '/vszz/vszz_output/tmp_data2'
     command = 'cd %s && svn log > %s' % (repo_dir, tmp2)
     print(command)
     os.system(command)
@@ -178,7 +178,7 @@ def get_filename(line):
 def get_back_line_num(commit, string, filename, repo_dir, CVE_ID):
     # if '6ef14e5753e' in commit:
     #     return None
-    tmp3 = 'C:/Users/sunqing/Desktop/vszz/vszz_output/tmp_data2'
+    tmp3 = '/vszz/vszz_output/tmp_data2'
     command = 'cd %s && svn commit %s > %s' % (repo_dir, commit, tmp3)
     print(command)
     os.system(command)
@@ -240,7 +240,7 @@ def back_line(line, filename, repo_dir, CVE_ID, res_delete):
     os.system(command)
     print(command)
 
-    tmp_data = 'C:/Users/sunqing/Desktop/vszz/vszz_output/tmp_data'
+    tmp_data = '/vszz/vszz_output/tmp_data'
     command = 'cd %s && svn blame -r %s %s > %s' \
         % (repo_dir, commit_id, filename, tmp_data)
     print(command)
@@ -275,7 +275,7 @@ def back_line(line, filename, repo_dir, CVE_ID, res_delete):
 def vszz_step1(target_repo, specialCVE):
     repo_dir = 'C:/tomcat-checkout/tomcat/'#项目所在目录
 
-    parent_commit_dict_file = 'C:/Users/sunqing/Desktop/vszz/vszz_output/'+target_repo+'_svn_parent_commit_data.json'
+    parent_commit_dict_file = '/vszz/vszz_output/'+target_repo+'_svn_parent_commit_data.json'
     with open(parent_commit_dict_file, 'r') as f:
         parent_commit_dict = json.loads(f.read())
     # parent_commit_dict = get_parent_commit(target_repo, repo_dir)
@@ -283,7 +283,7 @@ def vszz_step1(target_repo, specialCVE):
     # with open(parent_commit_dict_file, 'w') as f:
     #     f.write(json.dumps(parent_commit_dict))
 
-    log_file = 'C:/Users/sunqing/Desktop/vszz/vszz_output/svn_tomcat_tag2commit.json'
+    log_file = '/vszz/vszz_output/svn_tomcat_tag2commit.json'
     with open(log_file, 'r') as f:
         commit_json = json.loads(f.read())
     for CVE_ID in parent_commit_dict:
@@ -300,7 +300,7 @@ def vszz_step1(target_repo, specialCVE):
                     diff_list.append(os.path.join(parent,filename))
         #print(diff_list)
         for diff in diff_list:
-            output_file = 'C:/Users/sunqing/Desktop/vszz/vszz_output/'+ target_repo +'_'+ CVE_ID +'_'+ diff.split('_')[-1].split('.')[0] + '.txt'
+            output_file = '/vszz/vszz_output/'+ target_repo +'_'+ CVE_ID +'_'+ diff.split('_')[-1].split('.')[0] + '.txt'
             # if os.path.isfile(output_file):
             #     with open(output_file, 'r') as f:
             #         file = f.read()
@@ -377,7 +377,7 @@ def vszz_step1(target_repo, specialCVE):
                             print(command)  
                             os.system(command)
 
-                            tmp_data = 'C:/Users/sunqing/Desktop/vszz/vszz_output/tmp_data'
+                            tmp_data = '/vszz/vszz_output/tmp_data'
                             command = 'cd %s && svn blame -r %s %s > %s' \
                                 % (repo_dir, parent_commit_dict[CVE_ID][fix_commit], new_filename, tmp_data)
                             print(command)
@@ -431,7 +431,7 @@ def svn_get_CVE_commit(target_repo):
 
 def svn_vszz(target_repo, specialCVE):
     CVE_commit_list = svn_get_CVE_commit(target_repo)
-    log_file = 'C:/Users/sunqing/Desktop/vszz/vszz_output/svn_tomcat_tag2commit.json'
+    log_file = '/vszz/vszz_output/svn_tomcat_tag2commit.json'
     with open(log_file, 'r') as f:
         commit_json = json.loads(f.read())
     #print(commit_json)
@@ -468,10 +468,10 @@ svn_vszz(target_repo, specialCVE)
 
 vszz_step1(target_repo, specialCVE)
 
-VSZZ_path = 'C:/Users/sunqing/Desktop/vszz/vszz_output'
+VSZZ_path = '/vszz/vszz_output'
 output_path = VSZZ_path + '/'
 
-# gitlog_path = 'C:/Users/sunqing/Desktop/vszz/vszz_output/' + target_repo+ '/'
+# gitlog_path = '/vszz/vszz_output/' + target_repo+ '/'
 # read_path = VSZZ_path +'/'+ target_repo +'.txt'
 #get_git_log(target_repo)
 #lifetime_step3(gitlog_path,read_path, target_repo, specialCVE)
