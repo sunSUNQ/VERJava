@@ -1,0 +1,6 @@
+jenkins_CVE-2017-1000362_a572450f039fdb99410fcf6eb0ba307bd69ea458.txt
+inducing_commit exists in :
+['jenkins-1.498', 'jenkins-1.499']
+fixing_commit exists in :
+['jenkins-2.32.2', 'jenkins-2.32.3', 'jenkins-2.44', 'jenkins-2.45']
+['jenkins-1.498', 'jenkins-1.499']

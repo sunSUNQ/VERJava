@@ -1,0 +1,6 @@
+spring-framework_CVE-2016-5007_a30ab3.txt
+inducing_commit exists in :
+['v4.2.0.RC1', 'v4.2.0.RC2', 'v4.2.0.RC3', 'v4.2.0.RELEASE', 'v4.2.1.RELEASE', 'v4.2.2.RELEASE', 'v4.2.3.RELEASE', 'v4.2.4.RELEASE', 'v4.2.5.RELEASE', 'v4.2.6.RELEASE', 'v4.2.7.RELEASE', 'v4.2.8.RELEASE', 'v4.2.9.RELEASE']
+fixing_commit exists in :
+['v4.3.1.RELEASE', 'v4.3.2.RELEASE', 'v4.3.3.RELEASE', 'v5.0.0.M1', 'v5.0.0.M2']
+['v4.2.0.RC1', 'v4.2.0.RC2', 'v4.2.0.RC3', 'v4.2.0.RELEASE', 'v4.2.1.RELEASE', 'v4.2.2.RELEASE', 'v4.2.3.RELEASE', 'v4.2.4.RELEASE', 'v4.2.5.RELEASE', 'v4.2.6.RELEASE', 'v4.2.7.RELEASE', 'v4.2.8.RELEASE', 'v4.2.9.RELEASE']
