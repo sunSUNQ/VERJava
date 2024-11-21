@@ -348,7 +348,7 @@ def parse_diff(path_to_patch, repo_path):
 
 
 def get_parent_commit():
-    read_file = '/home/xy/vul_detect_src/mvp/vul_pat_feature/parent_commit.txt'
+    read_file = '/vul_pat_feature/parent_commit.txt'
     f=open(read_file,'r')
     line = f.readline()
     commit_dict = {}
@@ -404,7 +404,6 @@ def sort_new(list1):
 
 def Levenshtein_Distance(str1, str2):
     """
-    计算字符串 str1 和 str2 的编辑距离
     :param str1
     :param str2
     :return:
@@ -423,13 +422,13 @@ def Levenshtein_Distance(str1, str2):
     return similarity
 
 def get_parcommit(fix_commit):
-    command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git checkout '+fix_commit
+    command = 'cd vul_detect_src/src_repo/FFmpeg && git checkout '+fix_commit
     print(command)
     os.system(command)
-    command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git log > /home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data2'
+    command = 'cdvul_detect_src/src_repo/FFmpeg && git log > vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data2'
     print(command)
     os.system(command)
-    rf = open('/home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data2', 'r')
+    rf = open('/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data2', 'r')
     line1 = rf.readline()
     if line1.startswith('commit') and fix_commit in line1:
         line1=rf.readline()
@@ -439,7 +438,7 @@ def get_parcommit(fix_commit):
                 break
             line1=rf.readline()
         line1 = rf.readline()
-    # command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git checkout master'
+    # command = 'cd /vul_detect_src/src_repo/FFmpeg && git checkout master'
     # os.system(command)
     return par_commit
 
@@ -459,10 +458,10 @@ def get_filename(line):
 def get_back_line_num(commit,string,filename):
     if '6ef14e5753e' in commit:
         return None
-    command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git show '+ commit+' > /home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data3'
+    command = 'cd /vul_detect_src/src_repo/FFmpeg && git show '+ commit+' > /vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data3'
     print(command)
     os.system(command)
-    res_delete,res_delete_list,res_add_index,res_add_list=parse_diff('/home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data3', '~/vul_detect_src/src_repo/FFmpeg/')
+    res_delete,res_delete_list,res_add_index,res_add_list=parse_diff('/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data3', '~/vul_detect_src/src_repo/FFmpeg/')
     print(string)
     string = string.strip()
     print(string)
@@ -494,12 +493,12 @@ def back_line(line,filename):
     if line_num == None:
         return line
     print(line_num)
-    command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git checkout '+par_commit
+    command = 'cd /vul_detect_src/src_repo/FFmpeg && git checkout '+par_commit
     os.system(command)
-    command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git blame' + ' -L '+str(line_num)+','+str(line_num)+' '+filename+' > /home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data'
+    command = 'cd /vul_detect_src/src_repo/FFmpeg && git blame' + ' -L '+str(line_num)+','+str(line_num)+' '+filename+' > /vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data'
     print(command)
     os.system(command)
-    rf = open('/home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data', 'r')
+    rf = open('/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data', 'r')
     line1 = rf.readline()
     if len(line1) == 0:
         return line
@@ -520,7 +519,7 @@ def vszz_step1():
     for key in parent_commit_dict.keys():
         # if 'FFmpeg_CVE-2018-1999010_CWE-125_cced03dd667a5df6df8fd40d8de0bff477ee02e8' not in key:
         #     continue
-        patch_path = '/home/xy/vul_detect_src/GT_for_vul_range/patch/FFmpeg/' + key#FFmpeg_CVE-2015-8216_CWE-17_d24888ef19ba38b787b11d1ee091a3d94920c76a'   #补丁所在目录
+        patch_path = '/vul_detect_src/GT_for_vul_range/patch/FFmpeg/' + key#FFmpeg_CVE-2015-8216_CWE-17_d24888ef19ba38b787b11d1ee091a3d94920c76a'   #补丁所在目录
         
         res_delete, res_delete_list, res_add_index, res_add_list = parse_diff(patch_path,repo_dir)
         add_n = 0
@@ -537,13 +536,13 @@ def vszz_step1():
             for i in range(len(res_delete[filename])):
                 if len(res_delete[filename][i]):
                     for j in range(len(res_delete_list[filename][i])):
-                        command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git checkout ' + parent_commit_dict[key][1]
+                        command = 'cd /vul_detect_src/src_repo/FFmpeg && git checkout ' + parent_commit_dict[key][1]
                         print(command)  
                         os.system(command) #checkout到blame版本
-                        command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git blame' + ' -L '+str(res_delete[filename][i][j])+','+str(res_delete[filename][i][j])+' '+filename+' > /home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data'
+                        command = 'cd /vul_detect_src/src_repo/FFmpeg && git blame' + ' -L '+str(res_delete[filename][i][j])+','+str(res_delete[filename][i][j])+' '+filename+' > /vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data'
                         print(command)
                         os.system(command)
-                        rf = open('/home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data', 'r')
+                        rf = open('/vul_detect_src/mvp/vul_pat_feature/vszz_output/tmp_data', 'r')
                         line = rf.readline().replace('\n', '')
                         print(line)
                         backline=back_line(line,filename)
@@ -554,7 +553,7 @@ def vszz_step1():
                         # print(res_delete[filename][i][j])
         
             
-        command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git checkout master'
+        command = 'cd /vul_detect_src/src_repo/FFmpeg && git checkout master'
         #print(res_delete,res_delete_list)
         print(command)
         # exit(0)
@@ -563,9 +562,9 @@ def vszz_step1():
 
 def lifetime_step2(rootdir,path):
     #rootdir是待分析的数据（去重），path是待写入的数据
-    #rootdir = '/home/xy/vul_detect_src/mvp/vul_pat_feature/vul_lifetime_output_bak'
-    #path = '/home/xy/vul_detect_src/mvp/vul_pat_feature/vul_lifetime_output/'
-    w_path='/home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/res_1.txt'
+    #rootdir = '/vul_detect_src/mvp/vul_pat_feature/vul_lifetime_output_bak'
+    #path = '/vul_detect_src/mvp/vul_pat_feature/vul_lifetime_output/'
+    w_path='/vul_detect_src/mvp/vul_pat_feature/vszz_output/res_1.txt'
     write_file=open(w_path,'w')
     list=os.listdir(rootdir)
     for i in list:
@@ -627,11 +626,11 @@ def in_version(string,gitlog_path):
 def ifcherry(cve_num):#cve_num:FFmpeg_CVE-2018-13301_CWE-476_2aa9047486dbff12d9e040f917e5f799ed2fd78b
     fixcommit=cve_num.split('_')[-1]
     flag=0
-    command = 'cd /home/xy/vul_detect_src/src_repo/FFmpeg && git show '+fixcommit+' > /home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/temp_git_show.txt'
+    command = 'cd /vul_detect_src/src_repo/FFmpeg && git show '+fixcommit+' > /vul_detect_src/mvp/vul_pat_feature/vszz_output/temp_git_show.txt'
     print(command)
     os.system(command)
     from unidiff import PatchSet
-    patches = PatchSet.from_filename('/home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/temp_git_show.txt')
+    patches = PatchSet.from_filename('/vul_detect_src/mvp/vul_pat_feature/vszz_output/temp_git_show.txt')
     
     patch_info = patches[0].patch_info
     
@@ -678,15 +677,15 @@ def lifetime_step3(gitlog_path,read_path):
 
 if __name__ == '__main__':
     #repo_dir = '~/vul_detect_src/src_repo/FFmpeg/'
-    #patch_path = '/home/xy/vul_detect_src/GT_for_vul_range/patch/FFmpeg/'+key 
+    #patch_path = '/vul_detect_src/GT_for_vul_range/patch/FFmpeg/'+key 
 
     #需要新建一个vszz_output 目录
     #step2、step3是实现通过commit找到影响版本的功能，java好像管理方式不一样，所以2、3函数应该用不到
     #step1就是实现寻找vcc，具体路径在函数中，我注释了相关信息
     vszz_step1()  
 
-    # rootdir = '/home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output'
-    # path = '/home/xy/vul_detect_src/mvp/vul_pat_feature/vszz_output/'
+    # rootdir = '/vul_detect_src/mvp/vul_pat_feature/vszz_output'
+    # path = '/vul_detect_src/mvp/vul_pat_feature/vszz_output/'
     # lifetime_step2(rootdir,path)
 
     # gitlog_path = 'FFmpeg_commit_list'
