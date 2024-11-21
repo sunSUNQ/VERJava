@@ -155,7 +155,7 @@ def get_parcommit(fix_commit, repo_dir):
     command = 'cd %s && git checkout -f %s' % (repo_dir, fix_commit)
     print(command)
     os.system(command)
-    tmp2 = 'C:/Users/sunqing/Desktop/vszz/vszz_output/tmp_data2'
+    tmp2 = '/vszz/vszz_output/tmp_data2'
     command = 'cd %s && git log > %s' % (repo_dir, tmp2)
     print(command)
     os.system(command)
@@ -499,7 +499,7 @@ def lifetime_step3(gitlog_path, read_path, target_repo, specialCVE):
     
     r_f = open(read_path,'r')
     line = r_f.readline()
-    #w_f = open('C:/Users/sunqing/Desktop/vszz/vszz_output/Result_'+ target_repo +'.txt','w')
+   
     while line:
         if 'CVE' in line:
             if specialCVE not in line:
