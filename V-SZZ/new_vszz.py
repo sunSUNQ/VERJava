@@ -28,7 +28,7 @@ import datetime
 
 from dateutil import parser
 
-dir_path = 'C:/Users/sunqing/Desktop/Tomcat-Similarity-analysis/'
+dir_path = ''
 
 
 # get target repo's cve list
@@ -186,7 +186,7 @@ def get_filename(line):
 def get_back_line_num(commit, string, filename, repo_dir, CVE_ID):
     # if '6ef14e5753e' in commit:
     #     return None
-    tmp3 = 'C:/Users/sunqing/Desktop/vszz/vszz_output/tmp_data2'
+    tmp3 = '/vszz/vszz_output/tmp_data2'
     command = 'cd %s && git show %s > %s' % (repo_dir, commit, tmp3)
     print(command)
     os.system(command)
@@ -213,7 +213,6 @@ def get_back_line_num(commit, string, filename, repo_dir, CVE_ID):
 
 def Levenshtein_Distance(str1, str2):
     """
-    计算字符串 str1 和 str2 的编辑距离
     :param str1
     :param str2
     :return:
@@ -246,7 +245,7 @@ def back_line(line, filename, repo_dir, CVE_ID):
     print(line_num)
     command = 'cd %s && git checkout -f %s' % (repo_dir, par_commit)
     os.system(command)
-    tmp_data = 'C:/Users/sunqing/Desktop/vszz/vszz_output/tmp_data'
+    tmp_data = '/vszz/vszz_output/tmp_data'
     ####################### -1 
     command = 'cd %s && git blame -L %s,%s %s > %s' % (repo_dir, str(line_num-1), str(line_num-1), filename, tmp_data)
     print(command)
@@ -267,9 +266,9 @@ def back_line(line, filename, repo_dir, CVE_ID):
 
 
 def vszz_step1(target_repo, specialCVE):
-    repo_dir = 'C:/Users/sunqing/' + target_repo #项目所在目录
+    repo_dir = target_repo 
 
-    parent_commit_dict_file = 'C:/Users/sunqing/Desktop/vszz/vszz_output/'+target_repo+'_parent_commit_data.json'
+    parent_commit_dict_file = '/vszz/vszz_output/'+target_repo+'_parent_commit_data.json'
     # with open(parent_commit_dict_file, 'r') as f:
     #     parent_commit_dict = json.loads(f.read())
     parent_commit_dict = get_parent_commit(target_repo, repo_dir)
@@ -321,7 +320,7 @@ def vszz_step1(target_repo, specialCVE):
                 print('no delete num!!!!!!!!!!!')
                 continue
 
-            output_file = 'C:/Users/sunqing/Desktop/vszz/vszz_output/'+ target_repo +'_'+ CVE_ID +'_'+ diff.split('_')[-1].split('.')[0] + '.txt'
+            output_file = '/vszz/vszz_output/'+ target_repo +'_'+ CVE_ID +'_'+ diff.split('_')[-1].split('.')[0] + '.txt'
            
             w_f = open(output_file  ,'w')
             for filename in res_delete:
@@ -333,7 +332,7 @@ def vszz_step1(target_repo, specialCVE):
                             print(command)  
                             os.system(command) #checkout到blame版本
 
-                            tmp_data = 'C:/Users/sunqing/Desktop/vszz/vszz_output/tmp_data'
+                            tmp_data = '/vszz/vszz_output/tmp_data'
                             ######################### -1
                             command = 'cd %s && git blame -L %s,%s %s > %s' \
                                 % (repo_dir, str(res_delete[filename][i][j]-1), str(res_delete[filename][i][j]-1), filename, tmp_data)
@@ -425,9 +424,9 @@ def lifetime_step2(rootdir,path, target_repo, specialCVE):
 
 # get tags，then checkout to tag version and git log，get all commits
 def get_git_log(target_repo):
-    repo_dir = 'C:/Users/sunqing/' + target_repo
+    repo_dir = target_repo
 
-    gittag = 'C:/Users/sunqing/Desktop/vszz/vszz_output/gittag_' + target_repo + '.txt'
+    gittag = '/vszz/vszz_output/gittag_' + target_repo + '.txt'
     if not os.path.exists(gittag):
         cmd = 'cd %s && git tag > %s' % (repo_dir, gittag)
         subprocess.getstatusoutput(cmd)
@@ -437,7 +436,7 @@ def get_git_log(target_repo):
         file_content = f.read().split('\n')
     commit_list = ''
     for oneline in file_content:
-        commit_repo = 'C:/Users/sunqing/Desktop/vszz/vszz_output/'+target_repo +'/'
+        commit_repo = '/vszz/vszz_output/'+target_repo +'/'
         commit_file = commit_repo + oneline +'.txt'
         if not os.path.exists(commit_file):
             cmd = 'cd %s && git checkout -f %s' % (repo_dir, oneline.strip())
@@ -479,8 +478,8 @@ def in_version(string, gitlog_path):
 
 
 def ifcherry(cve_num, target_repo):
-    repo_dir = 'C:/Users/sunqing/' + target_repo
-    temp_file = 'C:/Users/sunqing/Desktop/vszz/vszz_output' + '/temp_git_show.txt'
+    repo_dir = target_repo
+    temp_file = '/vszz/vszz_output' + '/temp_git_show.txt'
     fixcommit=cve_num.split('_')[-1]
     flag=0
     command = 'cd %s && git show %s > %s' % (repo_dir, fixcommit, temp_file)
@@ -555,12 +554,12 @@ start = datetime.datetime.now()
 
 vszz_step1(target_repo, specialCVE)
 
-VSZZ_path = 'C:/Users/sunqing/Desktop/vszz/vszz_output'
+VSZZ_path = '/vszz/vszz_output'
 output_path = VSZZ_path + '/'
 lifetime_step2(VSZZ_path, output_path, target_repo, specialCVE)
 
 
-gitlog_path = 'C:/Users/sunqing/Desktop/vszz/vszz_output/' + target_repo+ '/'
+gitlog_path = '/vszz/vszz_output/' + target_repo+ '/'
 read_path = VSZZ_path +'/'+ target_repo +'.txt'
 #get_git_log(target_repo)
 lifetime_step3(gitlog_path,read_path, target_repo, specialCVE)
